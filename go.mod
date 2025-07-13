@@ -2,7 +2,7 @@ module github.com/kegliz/qcm
 
 go 1.23.0
 
-toolchain go1.23.8
+toolchain go1.23.11
 
 require (
 	github.com/fogleman/gg v1.3.0

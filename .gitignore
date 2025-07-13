@@ -1,0 +1,90 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# Go workspace file
+go.work
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Build artifacts
+/build/
+/dist/
+/bin/
+
+# Generated documentation
+/docs/generated/
+
+# Test coverage reports
+coverage.html
+coverage.out
+profile.out
+
+# Performance profiling files
+*.prof
+*.pprof
+
+# Circuit visualization outputs (PNG files that are generated)
+*_circuit.png
+circuit_*.png
+test_*.png
+output_*.png
+
+# Benchmark results
+benchmark_*.txt
+bench_*.out
+
+# Local configuration files
+config.local.*
+.env
+.env.local
+
+# Quantum simulation temporary files
+quantum_*.dat
+simulation_*.tmp
+
+# Release artifacts
+/releases/
+
+# Development/testing artifacts
+test_release.go
+debug_*
+scratch_*
+
+release.sh
+RELEASE_SUMMARY.md
