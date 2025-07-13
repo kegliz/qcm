@@ -75,14 +75,14 @@ func (s *Simulator) RunParallelStatic(c circuit.Circuit) (map[string]int, error)
 		}
 		// Log additional errors if desired (as Warn or Error level)
 		if errCount > 1 {
-			s.log.Warn().Err(err).Int("error_count", errCount).Msg("itsu: Additional error reported")
+			s.log.Warn().Err(err).Int("error_count", errCount).Msg("simulator: Additional error reported")
 		}
 	}
 
 	if errCount > 0 {
-		s.log.Warn().Err(firstErr).Int("error_count", errCount).Msgf("itsu: Run finished with %d error(s)", errCount)
+		s.log.Warn().Err(firstErr).Int("error_count", errCount).Msgf("simulator: Run finished with %d error(s)", errCount)
 	} else {
-		s.log.Info().Int("shots", shots).Msg("itsu: Run finished successfully")
+		s.log.Info().Int("shots", shots).Msg("simulator: Run finished successfully")
 	}
 
 	return hist, firstErr

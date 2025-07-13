@@ -24,12 +24,12 @@ func (s *Simulator) RunSerial(c circuit.Circuit) (map[string]int, error) {
 		key, err := s.runner.RunOnce(c) // Run the circuit once
 		if err != nil {
 			err = fmt.Errorf("shot %d failed: %w", i+1, err)
-			s.log.Error().Err(err).Int("shot", i+1).Msg("itsu: Serial shot failed")
+			s.log.Error().Err(err).Int("shot", i+1).Msg("simulator: Serial shot failed")
 			return hist, err
 		}
 		hist[key]++
 	}
 
-	s.log.Info().Int("shots", s.Shots).Msg("itsu: RunSerial finished successfully")
+	s.log.Info().Int("shots", s.Shots).Msg("simulator: RunSerial finished successfully")
 	return hist, nil
 }

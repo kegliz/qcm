@@ -49,7 +49,7 @@ func (s *Simulator) RunParallelChan(c circuit.Circuit) (map[string]int, error) {
 				if err != nil {
 					// Record the first error encountered by this worker
 					workerErr = fmt.Errorf("worker %d failed: %w", id, err)
-					s.log.Error().Err(workerErr).Int("worker_id", id).Msg("itsu: Shot failed")
+					s.log.Error().Err(workerErr).Int("worker_id", id).Msg("simulator: Shot failed")
 					continue // Continue to allow other workers to finish
 				}
 
@@ -65,15 +65,15 @@ func (s *Simulator) RunParallelChan(c circuit.Circuit) (map[string]int, error) {
 				case errChan <- workerErr:
 				default:
 					// Log if error couldn't be sent (e.g., channel full)
-					s.log.Warn().Err(workerErr).Int("worker_id", id).Msg("itsu: Worker failed to send error (channel full?)")
+					s.log.Warn().Err(workerErr).Int("worker_id", id).Msg("simulator: Worker failed to send error (channel full?)")
 				}
 			}
 		}(wid)
 	}
 
-	s.log.Debug().Msg("itsu: Waiting for workers to finish...")
+	s.log.Debug().Msg("simulator: Waiting for workers to finish...")
 	wg.Wait()
-	s.log.Info().Msg("itsu: Workers finished.")
+	s.log.Info().Msg("simulator: Workers finished.")
 	close(errChan) // Close channel after all workers are done
 
 	// Check if any errors were reported
@@ -86,14 +86,14 @@ func (s *Simulator) RunParallelChan(c circuit.Circuit) (map[string]int, error) {
 		}
 		// Log additional errors if desired (as Warn or Error level)
 		if errCount > 1 {
-			s.log.Warn().Err(err).Int("error_count", errCount).Msg("itsu: Additional error reported")
+			s.log.Warn().Err(err).Int("error_count", errCount).Msg("simulator: Additional error reported")
 		}
 	}
 
 	if errCount > 0 {
-		s.log.Warn().Err(firstErr).Int("error_count", errCount).Msgf("itsu: Run finished with %d error(s)", errCount)
+		s.log.Warn().Err(firstErr).Int("error_count", errCount).Msgf("simulator: Run finished with %d error(s)", errCount)
 	} else {
-		s.log.Info().Int("shots", s.Shots).Msg("itsu: RunParallelChan finished successfully")
+		s.log.Info().Int("shots", s.Shots).Msg("simulator: RunParallelChan finished successfully")
 	}
 
 	return hist, firstErr

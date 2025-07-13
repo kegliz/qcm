@@ -40,7 +40,7 @@ func createSuperpositionCircuit(qubits int) circuit.Circuit {
 		b.H(i)
 	}
 
-	for i := 0; i < qubits; i++ {
+	for i := range qubits {
 		b.Measure(i, i)
 	}
 
@@ -346,7 +346,7 @@ func TestQSimRunner_EnhancedInterfaces(t *testing.T) {
 	}
 
 	// Test ConfigurableRunner
-	err := runner.Configure(map[string]interface{}{
+	err := runner.Configure(map[string]any{
 		"verbose": true,
 		"seed":    int64(12345),
 	})

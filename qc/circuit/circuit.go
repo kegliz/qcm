@@ -36,7 +36,7 @@ type circuit struct {
 func FromDAG(dr dag.DAGReader) Circuit {
 	// Get topologically sorted nodes
 	nodes := dr.Operations()
-	if nodes == nil || len(nodes) == 0 {
+	if len(nodes) == 0 {
 		// Create an empty circuit
 		return &circuit{
 			qubits:  dr.Qubits(),

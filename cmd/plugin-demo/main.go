@@ -10,8 +10,9 @@ import (
 	"github.com/kegliz/qcm/qc/builder"
 	"github.com/kegliz/qcm/qc/simulator"
 
-	// Import the itsu package to register the plugin
+	// Import the itsu and qsim packages to register the plugins
 	_ "github.com/kegliz/qcm/qc/simulator/itsu"
+	_ "github.com/kegliz/qcm/qc/simulator/qsim"
 )
 
 func main() {
