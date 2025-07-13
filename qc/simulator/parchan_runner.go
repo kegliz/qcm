@@ -4,8 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/kegliz/qplay/qc/circuit"
-	"github.com/rs/zerolog/log"
+	"github.com/kegliz/qcm/qc/circuit"
 )
 
 // RunParallelChan executes the circuit and returns a histogram mapping classical
@@ -50,7 +49,7 @@ func (s *Simulator) RunParallelChan(c circuit.Circuit) (map[string]int, error) {
 				if err != nil {
 					// Record the first error encountered by this worker
 					workerErr = fmt.Errorf("worker %d failed: %w", id, err)
-					log.Error().Err(workerErr).Int("worker_id", id).Msg("itsu: Shot failed")
+					s.log.Error().Err(workerErr).Int("worker_id", id).Msg("itsu: Shot failed")
 					continue // Continue to allow other workers to finish
 				}
 

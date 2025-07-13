@@ -3,7 +3,7 @@ package simulator
 import (
 	"fmt"
 
-	"github.com/kegliz/qplay/qc/circuit"
+	"github.com/kegliz/qcm/qc/circuit"
 )
 
 // RunSerial executes the circuit serially (one shot after another) and returns

@@ -3,8 +3,8 @@ package circuit
 import (
 	"sort"
 
-	"github.com/kegliz/qplay/qc/dag"
-	"github.com/kegliz/qplay/qc/gate"
+	"github.com/kegliz/qcm/qc/dag"
+	"github.com/kegliz/qcm/qc/gate"
 )
 
 type Operation struct {
@@ -107,17 +107,28 @@ func FromDAG(dr dag.DAGReader) Circuit {
 }
 
 // ---------------- interface methods --------------------
+// Qubits returns the number of qubits in the circuit.
 func (c *circuit) Qubits() int { return c.qubits }
+
+// Clbits returns the number of classical bits in the circuit.
 func (c *circuit) Clbits() int { return c.clbits }
 
+// Depth returns the number of layers in the circuit (MaxStep + 1).
+// This is the maximum number of time steps plus one.
 func (c *circuit) Depth() int {
 	return c.depth
 }
 
+// MaxStep returns the maximum time step index in the circuit.
+// This is the highest TimeStep value used in the operations.
 func (c *circuit) MaxStep() int {
 	return c.maxStep
 }
 
+// Operations returns the operations in topological order with layout info.
+// It returns a copy of the slice to prevent external modification.
+// The operations are sorted by TimeStep and then by Line.
+// This is the main method to retrieve the circuit's operations.
 func (c *circuit) Operations() []Operation {
 	// Return a copy to prevent external modification
 	result := make([]Operation, len(c.ops))

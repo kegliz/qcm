@@ -9,8 +9,8 @@ import (
 
 	"slices"
 
-	"github.com/kegliz/qplay/qc/circuit"
-	"github.com/kegliz/qplay/qc/simulator"
+	"github.com/kegliz/qcm/qc/circuit"
+	"github.com/kegliz/qcm/qc/simulator"
 )
 
 // Supported gates for the QSim backend

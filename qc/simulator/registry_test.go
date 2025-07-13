@@ -6,8 +6,8 @@ import (
 
 	"maps"
 
-	"github.com/kegliz/qplay/qc/builder"
-	"github.com/kegliz/qplay/qc/circuit"
+	"github.com/kegliz/qcm/qc/builder"
+	"github.com/kegliz/qcm/qc/circuit"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

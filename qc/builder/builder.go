@@ -3,9 +3,9 @@ package builder
 import (
 	"fmt"
 
-	"github.com/kegliz/qplay/qc/circuit"
-	"github.com/kegliz/qplay/qc/dag"
-	"github.com/kegliz/qplay/qc/gate"
+	"github.com/kegliz/qcm/qc/circuit"
+	"github.com/kegliz/qcm/qc/dag"
+	"github.com/kegliz/qcm/qc/gate"
 )
 
 // Builder implements a *fluent* declarative DSL for building quantum circuits.

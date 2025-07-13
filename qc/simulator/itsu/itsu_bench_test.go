@@ -3,10 +3,10 @@ package itsu
 import (
 	"testing"
 
-	"github.com/kegliz/qplay/qc/builder"
-	"github.com/kegliz/qplay/qc/renderer"
-	"github.com/kegliz/qplay/qc/simulator"
-	"github.com/kegliz/qplay/qc/testutil"
+	"github.com/kegliz/qcm/qc/builder"
+	"github.com/kegliz/qcm/qc/renderer"
+	"github.com/kegliz/qcm/qc/simulator"
+	"github.com/kegliz/qcm/qc/testutil"
 )
 
 // getBenchmarkConfig returns appropriate configuration based on test flags

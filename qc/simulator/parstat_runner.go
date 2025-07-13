@@ -4,10 +4,10 @@ import (
 	"runtime"
 	"sync"
 
-	"github.com/kegliz/qplay/qc/circuit"
+	"github.com/kegliz/qcm/qc/circuit"
 )
 
-// runParallelStatic  (static partition) – workers get equal shot counts, no channels.
+// RunParallelStatic  (static partition) – workers get equal shot counts, no channels.
 func (s *Simulator) RunParallelStatic(c circuit.Circuit) (map[string]int, error) {
 	shots := s.Shots
 	if shots <= 0 {

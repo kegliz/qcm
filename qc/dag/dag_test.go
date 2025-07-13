@@ -3,7 +3,7 @@ package dag
 import (
 	"testing"
 
-	"github.com/kegliz/qplay/qc/gate"
+	"github.com/kegliz/qcm/qc/gate"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

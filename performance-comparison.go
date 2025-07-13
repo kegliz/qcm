@@ -5,11 +5,11 @@ import (
 	"log"
 	"time"
 
-	"github.com/kegliz/qplay/qc/builder"
-	"github.com/kegliz/qplay/qc/circuit"
-	"github.com/kegliz/qplay/qc/simulator"
-	_ "github.com/kegliz/qplay/qc/simulator/itsu"
-	_ "github.com/kegliz/qplay/qc/simulator/qsim"
+	"github.com/kegliz/qcm/qc/builder"
+	"github.com/kegliz/qcm/qc/circuit"
+	"github.com/kegliz/qcm/qc/simulator"
+	_ "github.com/kegliz/qcm/qc/simulator/itsu"
+	_ "github.com/kegliz/qcm/qc/simulator/qsim"
 )
 
 type BenchmarkResult struct {

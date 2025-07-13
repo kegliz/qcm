@@ -11,9 +11,9 @@ import (
 	"slices"
 
 	"github.com/itsubaki/q"
-	"github.com/kegliz/qplay/internal/logger"
-	"github.com/kegliz/qplay/qc/circuit"
-	"github.com/kegliz/qplay/qc/simulator"
+	"github.com/kegliz/qcm/qc/circuit"
+	"github.com/kegliz/qcm/qc/logger"
+	"github.com/kegliz/qcm/qc/simulator"
 	"github.com/rs/zerolog"
 )
 
@@ -139,7 +139,7 @@ func (s *ItsuOneShotRunner) RunOnce(c circuit.Circuit) (string, error) {
 // runOnce plays the circuit exactly one time on the provided simulator,
 // returning the measured classical bit‑string.
 func runOnce(sim *q.Q, c circuit.Circuit) (string, error) {
-	qs := sim.ZeroWith(c.Qubits())
+	qs := sim.Zeros(c.Qubits())
 	//cbits := bytes.Repeat([]byte{'0'}, c.Clbits())
 	cbits := make([]byte, c.Clbits())
 	for i := range cbits {

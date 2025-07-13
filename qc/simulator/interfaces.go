@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/kegliz/qplay/qc/circuit"
+	"github.com/kegliz/qcm/qc/circuit"
 )
 
 // BackendInfo provides metadata about a quantum backend runner.

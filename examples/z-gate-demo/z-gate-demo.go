@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/kegliz/qplay/qc/builder"
-	"github.com/kegliz/qplay/qc/circuit"
-	"github.com/kegliz/qplay/qc/renderer"
-	"github.com/kegliz/qplay/qc/simulator"
+	"github.com/kegliz/qcm/qc/builder"
+	"github.com/kegliz/qcm/qc/circuit"
+	"github.com/kegliz/qcm/qc/renderer"
+	"github.com/kegliz/qcm/qc/simulator"
 
 	// Import the itsu package to register the plugin
-	_ "github.com/kegliz/qplay/qc/simulator/itsu"
+	_ "github.com/kegliz/qcm/qc/simulator/itsu"
 )
 
 func main() {

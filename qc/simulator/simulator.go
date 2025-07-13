@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"runtime"
 
-	"github.com/kegliz/qplay/internal/logger"
-	"github.com/kegliz/qplay/qc/circuit"
+	"github.com/kegliz/qcm/qc/circuit"
+	"github.com/kegliz/qcm/qc/logger"
 	"github.com/rs/zerolog"
 )
 

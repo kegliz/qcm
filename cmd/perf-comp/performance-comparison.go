@@ -5,19 +5,19 @@ import (
 	"log"
 	"time"
 
-	"github.com/kegliz/qplay/qc/builder"
-	"github.com/kegliz/qplay/qc/circuit"
-	"github.com/kegliz/qplay/qc/simulator"
-	_ "github.com/kegliz/qplay/qc/simulator/itsu"
-	_ "github.com/kegliz/qplay/qc/simulator/qsim"
+	"github.com/kegliz/qcm/qc/builder"
+	"github.com/kegliz/qcm/qc/circuit"
+	"github.com/kegliz/qcm/qc/simulator"
+	_ "github.com/kegliz/qcm/qc/simulator/itsu"
+	_ "github.com/kegliz/qcm/qc/simulator/qsim"
 )
 
 type BenchmarkResult struct {
-	Name      string
-	QSimTime  time.Duration
-	ItsuTime  time.Duration
-	Speedup   float64
-	Circuit   string
+	Name     string
+	QSimTime time.Duration
+	ItsuTime time.Duration
+	Speedup  float64
+	Circuit  string
 }
 
 func createSimpleCircuit() circuit.Circuit {
@@ -30,7 +30,7 @@ func createSimpleCircuit() circuit.Circuit {
 
 func createBellState() circuit.Circuit {
 	b := builder.New(builder.Q(2), builder.C(2))
-	b.H(0) // Hadamard
+	b.H(0)       // Hadamard
 	b.CNOT(0, 1) // CNOT to create entanglement
 	b.Measure(0, 0)
 	b.Measure(1, 1)
@@ -62,7 +62,7 @@ func createComplexCircuit() circuit.Circuit {
 	b.CNOT(1, 2)
 	b.CNOT(0, 2)
 	b.H(2)
-	for i := 0; i < 3; i++ {
+	for i := range 3 {
 		b.Measure(i, i)
 	}
 	circ, _ := b.BuildCircuit()
@@ -72,14 +72,14 @@ func createComplexCircuit() circuit.Circuit {
 func createDeepCircuit() circuit.Circuit {
 	b := builder.New(builder.Q(3), builder.C(3))
 	// Deep circuit with many layers
-	for layer := 0; layer < 10; layer++ {
+	for range 10 {
 		b.H(0)
 		b.X(1)
 		b.Y(2)
 		b.CNOT(0, 1)
 		b.CNOT(1, 2)
 	}
-	for i := 0; i < 3; i++ {
+	for i := range 3 {
 		b.Measure(i, i)
 	}
 	circ, _ := b.BuildCircuit()
@@ -88,7 +88,7 @@ func createDeepCircuit() circuit.Circuit {
 
 func benchmarkRunner(runner simulator.OneShotRunner, circ circuit.Circuit, iterations int) time.Duration {
 	start := time.Now()
-	for i := 0; i < iterations; i++ {
+	for range iterations {
 		_, err := runner.RunOnce(circ)
 		if err != nil {
 			log.Printf("Error during benchmark: %v", err)
@@ -173,7 +173,7 @@ func main() {
 	avgSpeedup := totalSpeedup / float64(len(results))
 
 	fmt.Printf("Average Speedup: %.2fx\n", avgSpeedup)
-	
+
 	// Find best and worst cases
 	var bestSpeedup, worstSpeedup BenchmarkResult
 	bestSpeedup.Speedup = 0

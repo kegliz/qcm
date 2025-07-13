@@ -4,8 +4,8 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/kegliz/qplay/qc/builder"
-	"github.com/kegliz/qplay/qc/simulator"
+	"github.com/kegliz/qcm/qc/builder"
+	"github.com/kegliz/qcm/qc/simulator"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

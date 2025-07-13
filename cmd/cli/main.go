@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"sort" // Import the sort package
 
-	"github.com/kegliz/qplay/qc/builder"
-	"github.com/kegliz/qplay/qc/simulator"
-	"github.com/kegliz/qplay/qc/simulator/itsu"
+	"github.com/kegliz/qcm/qc/builder"
+	"github.com/kegliz/qcm/qc/simulator"
+	"github.com/kegliz/qcm/qc/simulator/itsu"
 )
 
 func main() {

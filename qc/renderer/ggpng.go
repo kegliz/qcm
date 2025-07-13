@@ -8,8 +8,8 @@ import (
 	"os"
 
 	"github.com/fogleman/gg" // ✱ pure‑Go 2‑D vector lib :contentReference[oaicite:0]{index=0}
-	"github.com/kegliz/qplay/qc/circuit"
-	"github.com/kegliz/qplay/qc/gate"
+	"github.com/kegliz/qcm/qc/circuit"
+	"github.com/kegliz/qcm/qc/gate"
 )
 
 // ─── ggPNG renderer ──────────────────────────────────────────────────────

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync/atomic"
 
-	"github.com/kegliz/qplay/qc/gate"
+	"github.com/kegliz/qcm/qc/gate"
 )
 
 // NodeID is stable across passes/serialisation.

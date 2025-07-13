@@ -4,7 +4,7 @@ import (
 	"image"
 	"image/color"
 
-	"github.com/kegliz/qplay/qc/circuit"
+	"github.com/kegliz/qcm/qc/circuit"
 )
 
 // Renderer turns a circuit into an immutable image.

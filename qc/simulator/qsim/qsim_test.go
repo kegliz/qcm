@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kegliz/qplay/qc/builder"
-	"github.com/kegliz/qplay/qc/circuit"
-	"github.com/kegliz/qplay/qc/simulator"
-	_ "github.com/kegliz/qplay/qc/simulator/itsu" // Import reference implementation
+	"github.com/kegliz/qcm/qc/builder"
+	"github.com/kegliz/qcm/qc/circuit"
+	"github.com/kegliz/qcm/qc/simulator"
+	_ "github.com/kegliz/qcm/qc/simulator/itsu" // Import reference implementation
 )
 
 // Helper function to create a simple H-gate circuit

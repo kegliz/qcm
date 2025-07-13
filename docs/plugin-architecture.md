@@ -166,8 +166,8 @@ To create a custom quantum backend, implement the `OneShotRunner` interface and 
 package mybackend
 
 import (
-    "github.com/kegliz/qplay/qc/simulator"
-    "github.com/kegliz/qplay/qc/circuit"
+    "github.com/kegliz/qcm/qc/simulator"
+    "github.com/kegliz/qcm/qc/circuit"
 )
 
 type MyRunner struct {

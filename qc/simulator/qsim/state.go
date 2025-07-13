@@ -12,7 +12,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/kegliz/qplay/qc/gate"
+	"github.com/kegliz/qcm/qc/gate"
 )
 
 // QSimRunner is a quantum circuit simulator built from scratch
