@@ -16,7 +16,7 @@ func (s *Simulator) RunSerial(c circuit.Circuit) (map[string]int, error) {
 		Int("qubits", c.Qubits()).
 		Int("clbits", c.Clbits()).
 		Int("depth", c.Depth()).
-		Msg("itsu: Starting RunSerial")
+		Msg("simulator: Starting RunSerial")
 
 	hist := make(map[string]int)
 

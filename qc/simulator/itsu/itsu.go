@@ -52,6 +52,7 @@ func (s *ItsuOneShotRunner) GetBackendInfo() simulator.BackendInfo {
 	return simulator.BackendInfo{
 		Name:        "Itsu Quantum Simulator",
 		Version:     "v0.0.5",
+		ShortName:   "itsu",
 		Description: "Go-based quantum circuit simulator using github.com/itsubaki/q",
 		Vendor:      "itsubaki",
 		Capabilities: map[string]bool{

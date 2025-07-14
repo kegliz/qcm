@@ -119,6 +119,7 @@ func (r *QSimRunner) GetBackendInfo() simulator.BackendInfo {
 	return simulator.BackendInfo{
 		Name:        "QSim Quantum Simulator",
 		Version:     "v1.0.0",
+		ShortName:   "qsim",
 		Description: "Custom statevector-based quantum circuit simulator built from scratch",
 		Vendor:      "qplay",
 		Capabilities: map[string]bool{

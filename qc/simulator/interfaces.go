@@ -11,6 +11,7 @@ import (
 type BackendInfo struct {
 	Name         string            `json:"name"`         // Human-readable name
 	Version      string            `json:"version"`      // Backend version
+	ShortName    string            `json:"short_name"`   // Short identifier for the backend
 	Description  string            `json:"description"`  // Description of the backend
 	Vendor       string            `json:"vendor"`       // Vendor/author
 	Capabilities map[string]bool   `json:"capabilities"` // Supported features

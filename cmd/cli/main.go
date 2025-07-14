@@ -17,9 +17,9 @@ func main() {
 	simulateBellState(shots)
 	fmt.Println("\n--- 2-Qubit Grover Simulation (|11>) ---")
 	simulateGrover2Qubit(shots)
-	fmt.Println("\n--- 3-Qubit Grover Simulation (|111>) ---")
+	fmt.Println("\n--- 3-Qubit Grover Simulation (|111>) - 2 iterations (optimal) ---")
 	simulateGrover3Qubit(shots)
-	fmt.Println("\n--- 4-Qubit Grover Simulation (|1111>) ---")
+	fmt.Println("\n--- 4-Qubit Grover Simulation (|1111>) - 3 iterations (optimal) ---")
 	simulateGrover4Qubit(shots)
 }
 
@@ -91,7 +91,7 @@ func simulateGrover2Qubit(shots int) {
 	pretty(hist, shots)
 }
 
-// simulateGrover3Qubit demonstrates one Grover iteration on 3‑qubit search space
+// simulateGrover3Qubit demonstrates optimal Grover iterations (2) on 3‑qubit search space
 // amplifying the |111⟩ state.
 func simulateGrover3Qubit(shots int) {
 	b := builder.New(builder.Q(3), builder.C(3))
@@ -99,18 +99,21 @@ func simulateGrover3Qubit(shots int) {
 	// — initial superposition —
 	b.H(0).H(1).H(2)
 
-	// — oracle marks |111⟩ by phase flip (CCZ) —
-	// Implement CCZ using H and Toffoli: H(target) Toffoli(c1, c2, target) H(target)
-	b.H(2).Toffoli(0, 1, 2).H(2)
+	// Perform 2 Grover iterations (optimal for 3 qubits: π/4 * √8 ≈ 2.22)
+	for range 2 {
+		// — oracle marks |111⟩ by phase flip (CCZ) —
+		// Implement CCZ using H and Toffoli: H(target) Toffoli(c1, c2, target) H(target)
+		b.H(2).Toffoli(0, 1, 2).H(2)
 
-	// — diffusion operator (3 qubits) —
-	// HHH - XXX - CCZ - XXX - HHH
-	b.H(0).H(1).H(2)
-	b.X(0).X(1).X(2)
-	// CCZ
-	b.H(2).Toffoli(0, 1, 2).H(2)
-	b.X(0).X(1).X(2)
-	b.H(0).H(1).H(2)
+		// — diffusion operator (3 qubits) —
+		// HHH - XXX - CCZ - XXX - HHH
+		b.H(0).H(1).H(2)
+		b.X(0).X(1).X(2)
+		// CCZ
+		b.H(2).Toffoli(0, 1, 2).H(2)
+		b.X(0).X(1).X(2)
+		b.H(0).H(1).H(2)
+	}
 
 	// — measurement —
 	b.Measure(0, 0).Measure(1, 1).Measure(2, 2)
@@ -137,7 +140,7 @@ func simulateGrover3Qubit(shots int) {
 	pretty(hist, shots)
 }
 
-// simulateGrover4Qubit demonstrates one Grover iteration on 4‑qubit search space
+// simulateGrover4Qubit demonstrates optimal Grover iterations (3) on 4‑qubit search space
 // amplifying the |1111⟩ state.
 func simulateGrover4Qubit(shots int) {
 	// This circuit uses a CCCZ gate
@@ -148,27 +151,30 @@ func simulateGrover4Qubit(shots int) {
 	// — initial superposition —
 	b.H(0).H(1).H(2).H(3)
 
-	// — oracle marks |1111⟩ by phase flip (CCCZ) —
-	// CCCZ using H and Toffoli:  H(3) - CCCX - H(3)
-	b.H(3)
-	//  CCCX using ancilla qubit 4:
-	//  Toffoli(0,1,4) - Toffoli(2,4,3) - Toffoli(0,1,4)
-	b.Toffoli(0, 1, 4).Toffoli(2, 4, 3).Toffoli(0, 1, 4)
-	b.H(3)
+	// Perform 3 Grover iterations (optimal for 4 qubits: π/4 * √16 ≈ 3.14)
+	for range 3 {
+		// — oracle marks |1111⟩ by phase flip (CCCZ) —
+		// CCCZ using H and Toffoli:  H(3) - CCCX - H(3)
+		b.H(3)
+		//  CCCX using ancilla qubit 4:
+		//  Toffoli(0,1,4) - Toffoli(2,4,3) - Toffoli(0,1,4)
+		b.Toffoli(0, 1, 4).Toffoli(2, 4, 3).Toffoli(0, 1, 4)
+		b.H(3)
 
-	// — diffusion operator (4 qubits) —
-	// HHHH - XXXX - CCCZ - XXXX - HHHH
-	b.H(0).H(1).H(2).H(3)
-	b.X(0).X(1).X(2).X(3)
-	//  CCCZ using H and Toffoli:  H(3) - CCCX - H(3)
-	b.H(3)
-	// CCCX using ancilla qubit 4:
-	// Toffoli(0,1,4) - Toffoli(2,4,3) - Toffoli(0,1,4)
-	b.Toffoli(0, 1, 4).Toffoli(2, 4, 3).Toffoli(0, 1, 4)
-	b.H(3)
+		// — diffusion operator (4 qubits) —
+		// HHHH - XXXX - CCCZ - XXXX - HHHH
+		b.H(0).H(1).H(2).H(3)
+		b.X(0).X(1).X(2).X(3)
+		//  CCCZ using H and Toffoli:  H(3) - CCCX - H(3)
+		b.H(3)
+		// CCCX using ancilla qubit 4:
+		// Toffoli(0,1,4) - Toffoli(2,4,3) - Toffoli(0,1,4)
+		b.Toffoli(0, 1, 4).Toffoli(2, 4, 3).Toffoli(0, 1, 4)
+		b.H(3)
 
-	b.X(0).X(1).X(2).X(3)
-	b.H(0).H(1).H(2).H(3)
+		b.X(0).X(1).X(2).X(3)
+		b.H(0).H(1).H(2).H(3)
+	}
 
 	// — measurement —
 	b.Measure(0, 0).Measure(1, 1).Measure(2, 2).Measure(3, 3)

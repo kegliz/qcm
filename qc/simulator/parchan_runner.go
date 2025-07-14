@@ -18,7 +18,7 @@ func (s *Simulator) RunParallelChan(c circuit.Circuit) (map[string]int, error) {
 		Int("qubits", c.Qubits()).
 		Int("clbits", c.Clbits()).
 		Int("depth", c.Depth()).
-		Msg("itsu: Starting RunParallelChan")
+		Msg("simulator: Starting RunParallelChan")
 
 	hist := make(map[string]int)
 	var mu sync.Mutex

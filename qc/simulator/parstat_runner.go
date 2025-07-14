@@ -24,13 +24,17 @@ func (s *Simulator) RunParallelStatic(c circuit.Circuit) (map[string]int, error)
 	per := shots / workers
 	extra := shots % workers // first <extra> workers get +1
 
+	backend := "simulator"
+	if SupportsBackendInfo(s.runner) {
+		backend = s.runner.(BackendProvider).GetBackendInfo().ShortName
+	}
 	s.log.Info().
 		Int("shots", shots).
 		Int("workers", workers).
 		Int("qubits", c.Qubits()).
 		Int("clbits", c.Clbits()).
 		Int("depth", c.Depth()).
-		Msg("itsu: Starting RunParallelStatic")
+		Msgf("simulator %s: Starting RunParallelStatic", backend)
 
 	hist := make(map[string]int, shots)
 	var mu sync.Mutex
