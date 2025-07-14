@@ -114,6 +114,8 @@ func (qs *QuantumState) GetProbabilities() []float64 {
 }
 
 // Measure performs a measurement of specified qubit and collapses the state
+// Returns true if measured state is |1⟩, false for |0⟩
+// It measures over the computational basis
 func (qs *QuantumState) Measure(qubit int) bool {
 	if qubit >= qs.numQubits {
 		return false // Invalid qubit

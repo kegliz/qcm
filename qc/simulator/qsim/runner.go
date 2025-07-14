@@ -4,6 +4,7 @@ package qsim
 import (
 	"context"
 	"fmt"
+	"maps"
 	"strings"
 	"time"
 
@@ -144,7 +145,7 @@ func (r *QSimRunner) SetVerbose(verbose bool) {
 	r.verbose = verbose
 }
 
-func (r *QSimRunner) Configure(options map[string]interface{}) error {
+func (r *QSimRunner) Configure(options map[string]any) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
@@ -177,14 +178,12 @@ func (r *QSimRunner) Configure(options map[string]interface{}) error {
 	return nil
 }
 
-func (r *QSimRunner) GetConfiguration() map[string]interface{} {
+func (r *QSimRunner) GetConfiguration() map[string]any {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 
 	result := make(map[string]interface{})
-	for k, v := range r.config {
-		result[k] = v
-	}
+	maps.Copy(result, r.config)
 	return result
 }
 
