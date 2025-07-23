@@ -90,9 +90,6 @@ type StatevectorGetter interface {
 	GetStatevector(c circuit.Circuit) ([]complex128, error)
 }
 
-// Enhanced OneShotRunner interface with optional capabilities
-// The base OneShotRunner interface remains unchanged for backward compatibility.
-
 // FullFeaturedRunner combines all optional interfaces.
 // Implementations can choose which interfaces to implement based on their capabilities.
 type FullFeaturedRunner interface {

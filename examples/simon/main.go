@@ -45,6 +45,9 @@ func simonDemo(shots int) {
 	simonAlgorithm3Qubit(shots, "011")
 }
 
+// simonAlgorithm2Qubit runs Simon's algorithm for 2 qubits with the given secret string
+// Uses 4 qubits: 2 input qubits + 2 ancilla qubits
+// secretString is the hidden string s in big-endian format
 func simonAlgorithm2Qubit(shots int, secretString string) {
 	b := builder.New(builder.Q(4), builder.C(2))
 	b.H(0).H(1)
@@ -57,6 +60,9 @@ func simonAlgorithm2Qubit(shots int, secretString string) {
 	analyzeSimonResults(2, hist, shots, secretString)
 }
 
+// simonAlgorithm3Qubit runs Simon's algorithm for 3 qubits with the given secret string
+// Uses 6 qubits: 3 input qubits + 3 ancilla qubits
+// secretString is the hidden string s in big-endian format
 func simonAlgorithm3Qubit(shots int, secretString string) {
 	b := builder.New(builder.Q(6), builder.C(3))
 	b.H(0).H(1).H(2)
@@ -69,7 +75,7 @@ func simonAlgorithm3Qubit(shots int, secretString string) {
 	analyzeSimonResults(3, hist, shots, secretString)
 }
 
-// Corrected Simon's oracles implementing proper two-to-one functions
+// applySimonOracle2Qubit applies the Simon oracle for 2 qubits
 // For s ≠ 0: f(x) = f(y) ⟺ x ⊕ y ∈ {0, s}
 func applySimonOracle2Qubit(b builder.Builder, secretString string) {
 	switch secretString {
@@ -84,6 +90,8 @@ func applySimonOracle2Qubit(b builder.Builder, secretString string) {
 	}
 }
 
+// applySimonOracle3Qubit applies the Simon oracle for 3 qubits
+// For s ≠ 0: f(x) = f(y) ⟺ x ⊕ y ∈ {0, s}
 func applySimonOracle3Qubit(b builder.Builder, secretString string) {
 	switch secretString {
 	case "000": // f(x) = x, one-to-one
@@ -140,45 +148,98 @@ func demonstrateOracleMappings() {
 	// 2-Qubit Oracles
 	fmt.Println("\n--- 2-Qubit Oracles ---")
 	secretStrings2 := []string{"00", "01", "10", "11"}
-
 	for _, secretString := range secretStrings2 {
-		fmt.Printf("\nOracle for secret string s = \"%s\":\n", secretString)
-		fmt.Printf("Function f(x) mappings:\n")
-
-		// Generate all possible 2-bit inputs
-		for input := 0; input < 4; input++ {
-			inputStr := fmt.Sprintf("%02b", input)
-			output := getOracleMapping(2, secretString, inputStr)
-			fmt.Printf("  |%s⟩ → |%s⟩\n", inputStr, output)
-		}
-
-		// Analyze two-to-one property
-		analyzeTwoToOneProperty(2, secretString)
+		demonstrateAndAnalyzeOracle(2, secretString)
 	}
 
 	// 3-Qubit Oracles
 	fmt.Println("\n--- 3-Qubit Oracles ---")
 	secretStrings3 := []string{"000", "110", "101", "011"}
-
 	for _, secretString := range secretStrings3 {
-		fmt.Printf("\nOracle for secret string s = \"%s\":\n", secretString)
-		fmt.Printf("Function f(x) mappings:\n")
+		demonstrateAndAnalyzeOracle(3, secretString)
+	}
+}
 
-		// Generate all possible 3-bit inputs
-		for input := 0; input < 8; input++ {
-			inputStr := fmt.Sprintf("%03b", input)
-			output := getOracleMapping(3, secretString, inputStr)
-			fmt.Printf("  |%s⟩ → |%s⟩\n", inputStr, output)
+// demonstrateAndAnalyzeOracle generates all mappings and analyzes properties in one pass
+func demonstrateAndAnalyzeOracle(n int, secretString string) {
+	fmt.Printf("\nOracle for secret string s = \"%s\":\n", secretString)
+	fmt.Printf("Function f(x) mappings:\n")
+
+	numInputs := 1 << n
+	outputs := make(map[string][]string) // For analyzing two-to-one property
+
+	// Generate all mappings and collect outputs for analysis
+	for input := range numInputs {
+		inputStr := fmt.Sprintf(fmt.Sprintf("%%0%db", n), input)
+		output := getOracleMapping(n, secretString, inputStr)
+		fmt.Printf("  |%s⟩ → |%s⟩\n", inputStr, output)
+
+		// Collect for two-to-one analysis
+		outputs[output] = append(outputs[output], inputStr)
+	}
+
+	// Analyze two-to-one property using collected data
+	analyzeTwoToOnePropertyFromMappings(n, secretString, outputs)
+}
+
+// analyzeTwoToOnePropertyFromMappings analyzes using pre-computed mappings
+func analyzeTwoToOnePropertyFromMappings(n int, secretString string, outputs map[string][]string) {
+	fmt.Printf("Two-to-one property analysis for s = \"%s\":\n", secretString)
+
+	s_val, _ := strconv.ParseInt(secretString, 2, 64)
+	if s_val == 0 {
+		fmt.Printf("  → s = %s: Function should be one-to-one\n", secretString)
+		// Check if it's actually one-to-one
+		allDistinct := true
+		for output, inputs := range outputs {
+			if len(inputs) > 1 {
+				fmt.Printf("    ✗ f(%s) all map to %s (not one-to-one)\n", strings.Join(inputs, ", "), output)
+				allDistinct = false
+			}
+		}
+		if allDistinct {
+			fmt.Printf("    ✓ Function is one-to-one\n")
+		}
+		return
+	}
+
+	fmt.Printf("  → s ≠ 0: Function should be exactly two-to-one\n")
+	fmt.Printf("  → Checking f(x) = f(y) ⟺ x ⊕ y ∈ {0, s}:\n")
+
+	allCorrect := true
+	for output, inputs := range outputs {
+		if len(inputs) != 2 {
+			fmt.Printf("    ✗ Output %s has %d inputs: %v (should be exactly 2)\n", output, len(inputs), inputs)
+			allCorrect = false
+			continue
 		}
 
-		// Analyze two-to-one property
-		analyzeTwoToOneProperty(3, secretString)
+		// Check if the two inputs differ by s
+		x1, _ := strconv.ParseInt(inputs[0], 2, 64)
+		x2, _ := strconv.ParseInt(inputs[1], 2, 64)
+		diff := x1 ^ x2
+
+		if diff == s_val {
+			fmt.Printf("    ✓ f(%s) = f(%s) = %s, %s ⊕ %s = %s = s\n",
+				inputs[0], inputs[1], output, inputs[0], inputs[1],
+				fmt.Sprintf(fmt.Sprintf("%%0%db", n), diff))
+		} else {
+			fmt.Printf("    ✗ f(%s) = f(%s) = %s, but %s ⊕ %s = %s ≠ s\n",
+				inputs[0], inputs[1], output, inputs[0], inputs[1],
+				fmt.Sprintf(fmt.Sprintf("%%0%db", n), diff))
+			allCorrect = false
+		}
+	}
+
+	if allCorrect {
+		fmt.Printf("  → ✓ Function is properly two-to-one\n")
+	} else {
+		fmt.Printf("  → ✗ Function does not satisfy two-to-one property\n")
 	}
 }
 
 // getOracleMapping calculates the output of the oracle for a given input using the quantum circuit
 func getOracleMapping(n int, secretString string, input string) string {
-	// Create circuit with 2n qubits (n input, n output)
 	b := builder.New(builder.Q(2 * n))
 
 	// Prepare input state |input⟩|0...0⟩
@@ -233,77 +294,4 @@ func getOracleMapping(n int, secretString string, input string) string {
 		}
 	}
 	return "ERROR"
-}
-
-// analyzeTwoToOneProperty verifies the two-to-one property: f(x) = f(y) ⟺ x ⊕ y ∈ {0, s}
-func analyzeTwoToOneProperty(n int, secretString string) {
-	fmt.Printf("Two-to-one property analysis for s = \"%s\":\n", secretString)
-
-	s_val, _ := strconv.ParseInt(secretString, 2, 64)
-	if s_val == 0 {
-		fmt.Printf("  → s = %s: Function should be one-to-one\n", secretString)
-		// Check if it's actually one-to-one
-		outputs := make(map[string][]string)
-		numInputs := 1 << n
-		for x := range numInputs {
-			xStr := fmt.Sprintf(fmt.Sprintf("%%0%db", n), x)
-			fx := getOracleMapping(n, secretString, xStr)
-			outputs[fx] = append(outputs[fx], xStr)
-		}
-		allDistinct := true
-		for output, inputs := range outputs {
-			if len(inputs) > 1 {
-				fmt.Printf("    ✗ f(%s) all map to %s (not one-to-one)\n", strings.Join(inputs, ", "), output)
-				allDistinct = false
-			}
-		}
-		if allDistinct {
-			fmt.Printf("    ✓ Function is one-to-one\n")
-		}
-		return
-	}
-
-	fmt.Printf("  → s ≠ 0: Function should be exactly two-to-one\n")
-	fmt.Printf("  → Checking f(x) = f(y) ⟺ x ⊕ y ∈ {0, s}:\n")
-
-	// Group outputs by their values
-	outputs := make(map[string][]string)
-	numInputs := 1 << n
-
-	for x := range numInputs {
-		xStr := fmt.Sprintf(fmt.Sprintf("%%0%db", n), x)
-		fx := getOracleMapping(n, secretString, xStr)
-		outputs[fx] = append(outputs[fx], xStr)
-	}
-
-	allCorrect := true
-	for output, inputs := range outputs {
-		if len(inputs) != 2 {
-			fmt.Printf("    ✗ Output %s has %d inputs: %v (should be exactly 2)\n", output, len(inputs), inputs)
-			allCorrect = false
-			continue
-		}
-
-		// Check if the two inputs differ by s
-		x1, _ := strconv.ParseInt(inputs[0], 2, 64)
-		x2, _ := strconv.ParseInt(inputs[1], 2, 64)
-		diff := x1 ^ x2
-
-		if diff == s_val {
-			fmt.Printf("    ✓ f(%s) = f(%s) = %s, %s ⊕ %s = %s = s\n",
-				inputs[0], inputs[1], output, inputs[0], inputs[1],
-				fmt.Sprintf(fmt.Sprintf("%%0%db", n), diff))
-		} else {
-			fmt.Printf("    ✗ f(%s) = f(%s) = %s, but %s ⊕ %s = %s ≠ s\n",
-				inputs[0], inputs[1], output, inputs[0], inputs[1],
-				fmt.Sprintf(fmt.Sprintf("%%0%db", n), diff))
-			allCorrect = false
-		}
-	}
-
-	if allCorrect {
-		fmt.Printf("  → ✓ Function is properly two-to-one\n")
-	} else {
-		fmt.Printf("  → ✗ Function does not satisfy two-to-one property\n")
-	}
 }
