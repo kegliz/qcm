@@ -250,13 +250,12 @@ func analyzeBVResults3Qubit(hist map[string]int, shots int, hiddenString string)
 
 	for state, count := range hist {
 		percentage := float64(count) / float64(shots) * 100
-		fmt.Printf("  |%s⟩: %d counts (%.2f%%)\n", reverseString(state), count, percentage)
+		fmt.Printf("  |%s⟩: %d counts (%.2f%%)\n", state, count, percentage)
 	}
 
-	// The measured string is the reverse of the hidden string due to endianness.
-	expectedResult := reverseString(hiddenString)
-	if count, exists := hist[expectedResult]; exists && count > int(float64(shots)*0.9) {
-		fmt.Printf("  ✓ Successfully found hidden string: \"%s\" (measured as |%s⟩)\n", hiddenString, expectedResult)
+	// The measured string should match the hidden string directly
+	if count, exists := hist[hiddenString]; exists && count > int(float64(shots)*0.9) {
+		fmt.Printf("  ✓ Successfully found hidden string: \"%s\"\n", hiddenString)
 	} else {
 		fmt.Printf("  ✗ Failed to find hidden string \"%s\"\n", hiddenString)
 	}
@@ -268,13 +267,12 @@ func analyzeBVResults4Qubit(hist map[string]int, shots int, hiddenString string)
 
 	for state, count := range hist {
 		percentage := float64(count) / float64(shots) * 100
-		fmt.Printf("  |%s⟩: %d counts (%.2f%%)\n", reverseString(state), count, percentage)
+		fmt.Printf("  |%s⟩: %d counts (%.2f%%)\n", state, count, percentage)
 	}
 
-	// The measured string is the reverse of the hidden string due to endianness.
-	expectedResult := reverseString(hiddenString)
-	if count, exists := hist[expectedResult]; exists && count > int(float64(shots)*0.9) {
-		fmt.Printf("  ✓ Successfully found hidden string: \"%s\" (measured as |%s⟩)\n", hiddenString, expectedResult)
+	// The measured string should match the hidden string directly
+	if count, exists := hist[hiddenString]; exists && count > int(float64(shots)*0.9) {
+		fmt.Printf("  ✓ Successfully found hidden string: \"%s\"\n", hiddenString)
 	} else {
 		fmt.Printf("  ✗ Failed to find hidden string \"%s\"\n", hiddenString)
 	}
