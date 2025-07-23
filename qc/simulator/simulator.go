@@ -11,9 +11,10 @@ import (
 
 // SimulatorOptions encapsulates the parameters for creating a Simulator.
 type SimulatorOptions struct {
-	Shots   int
-	Workers int // number of concurrent workers (0 => NumCPU)
-	Runner  OneShotRunner
+	Shots       int
+	Workers     int // number of concurrent workers (0 => NumCPU)
+	Runner      OneShotRunner
+	StateVector bool // if true, the simulator returns the state vector instead of measurement outcomes
 }
 
 // Simulator executes an immutable circuit for a given number of shots.
@@ -27,6 +28,10 @@ type Simulator struct {
 	runner  OneShotRunner
 
 	log logger.Logger
+}
+
+func (s *Simulator) Runner() OneShotRunner {
+	return s.runner
 }
 
 // NewSimulator creates a new Simulator
@@ -68,6 +73,15 @@ type OneShotRunner interface {
 // Run defaults to RunParallelStatic.
 func (s *Simulator) Run(c circuit.Circuit) (map[string]int, error) {
 	return s.RunParallelStatic(c)
+}
+
+// GetStatevector returns the final statevector of the circuit.
+// This is only supported by runners that implement the StatevectorGetter interface.
+func (s *Simulator) GetStatevector(c circuit.Circuit) ([]complex128, error) {
+	if getter, ok := s.runner.(StatevectorGetter); ok {
+		return getter.GetStatevector(c)
+	}
+	return nil, fmt.Errorf("runner does not support getting the state vector")
 }
 
 // NewSimulatorWithRunner creates a simulator using a named runner from the plugin registry.

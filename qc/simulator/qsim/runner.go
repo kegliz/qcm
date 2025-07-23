@@ -333,6 +333,25 @@ func (r *QSimRunner) GetResultProbabilities(c circuit.Circuit) (map[string]float
 	return result, nil
 }
 
+// GetStatevector computes the final statevector of a circuit
+func (r *QSimRunner) GetStatevector(c circuit.Circuit) ([]complex128, error) {
+	// Initialize quantum state
+	state := NewQuantumState(c.Qubits(), c.Clbits())
+
+	// Execute circuit operations
+	for _, op := range c.Operations() {
+		if op.G.Name() == "MEASURE" {
+			continue // Skip measurements
+		}
+		// Apply quantum gate
+		if err := state.ApplyGate(op.G, op.Qubits); err != nil {
+			return nil, fmt.Errorf("failed to apply gate %s: %w", op.G.Name(), err)
+		}
+	}
+
+	return state.amplitudes, nil
+}
+
 // Factory function for the plugin system
 func init() {
 	// Register the QSim runner with the plugin system

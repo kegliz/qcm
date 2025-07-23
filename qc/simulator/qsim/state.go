@@ -39,6 +39,7 @@ type QuantumState struct {
 	amplitudes    []complex128 // State vector amplitudes
 	numClassical  int          // Number of classical bits
 	classicalBits []bool       // Classical bit values
+	StateVector   []complex128 // Populated when StateVector option is true
 }
 
 // NewQSimRunner creates a new quantum simulator instance
@@ -408,3 +409,6 @@ func (qs *QuantumState) applyFredkin(control, target1, target2 int) error {
 
 	return nil
 }
+
+// State represents the state vector of a quantum circuit.
+type State []complex128

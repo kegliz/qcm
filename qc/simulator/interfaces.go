@@ -85,6 +85,11 @@ type BatchRunner interface {
 	RunBatch(c circuit.Circuit, shots int) ([]string, error)
 }
 
+// StatevectorGetter defines an interface for runners that can return a state vector.
+type StatevectorGetter interface {
+	GetStatevector(c circuit.Circuit) ([]complex128, error)
+}
+
 // Enhanced OneShotRunner interface with optional capabilities
 // The base OneShotRunner interface remains unchanged for backward compatibility.
 

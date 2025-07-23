@@ -93,7 +93,7 @@ func main() {
 - **Fredkin** - Controlled-SWAP gate
 
 ### Measurement
-- **Measure** - Quantum measurement to classical bits
+- **Measure** - Quantum measurement to classical bits (currently only on the computational basis)
 
 ## Architecture
 
