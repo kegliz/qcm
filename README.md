@@ -139,7 +139,7 @@ QCM includes several performance optimization features:
 
 ## Examples
 
-### Grover's Algorithm (2-qubit)
+### Grover's Algorithm
 
 ```go
 // Search for |11⟩ state using 2-qubit Grover's algorithm
@@ -155,6 +155,8 @@ sim.Shots = 1024
 results, _ := sim.Run(circ)
 ```
 
+See the [Grover's Algorithm example] (cmd/bell-grover-demo/) for more details.
+
 ### Z-Gate Demonstration
 
 ```go
@@ -167,6 +169,14 @@ circuit := builder.New(builder.Q(1), builder.C(1)).
 
 circ, _ := circuit.BuildCircuit()
 ```
+
+### Other Examples
+
+QCM includes a comprehensive collection of other quantum algorithm implementations in the `examples/` directory:
+
+- **Deutsch-Jozsa Algorithm** (`examples/deutsch-jozsa/`) - Demonstrates the quantum advantage for determining if a function is constant or balanced
+- **Bernstein-Vazirani Algorithm** (`examples/bernstein-vazirani/`) - Efficiently finds a hidden bit string using quantum parallelism  
+- **Simon's Algorithm** (`examples/simon/`) - Solves the Simon's problem exponentially faster than classical algorithms
 
 ## Performance Comparison
 
@@ -200,10 +210,7 @@ The **qsim** backend consistently demonstrates superior performance across diffe
 QCM provides several command-line tools:
 
 ```bash
-# Run example simulations
-go run cmd/cli/main.go
-
-# Performance comparison between backends  
+# Performance comparison between backends
 go run cmd/perf-comp/performance-comparison.go
 
 # Plugin demonstration
