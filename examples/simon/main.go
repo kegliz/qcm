@@ -190,11 +190,12 @@ func getOracleMapping(n int, secretString string, input string) string {
 	}
 
 	// Apply the oracle based on secret string and number of qubits
-	if n == 2 {
+	switch n {
+	case 2:
 		applySimonOracle2Qubit(b, secretString)
-	} else if n == 3 {
+	case 3:
 		applySimonOracle3Qubit(b, secretString)
-	} else {
+	default:
 		return "ERROR"
 	}
 
@@ -244,7 +245,7 @@ func analyzeTwoToOneProperty(n int, secretString string) {
 		// Check if it's actually one-to-one
 		outputs := make(map[string][]string)
 		numInputs := 1 << n
-		for x := 0; x < numInputs; x++ {
+		for x := range numInputs {
 			xStr := fmt.Sprintf(fmt.Sprintf("%%0%db", n), x)
 			fx := getOracleMapping(n, secretString, xStr)
 			outputs[fx] = append(outputs[fx], xStr)
@@ -269,7 +270,7 @@ func analyzeTwoToOneProperty(n int, secretString string) {
 	outputs := make(map[string][]string)
 	numInputs := 1 << n
 
-	for x := 0; x < numInputs; x++ {
+	for x := range numInputs {
 		xStr := fmt.Sprintf(fmt.Sprintf("%%0%db", n), x)
 		fx := getOracleMapping(n, secretString, xStr)
 		outputs[fx] = append(outputs[fx], xStr)
